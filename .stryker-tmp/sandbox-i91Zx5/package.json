@@ -1,0 +1,19 @@
+{
+  "name": "final-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@stryker-mutator/core": "^9.3.0",
+    "@stryker-mutator/mocha-runner": "^9.3.0",
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5"
+  }
+}

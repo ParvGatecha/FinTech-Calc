@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "This config was generated using 'stryker init'",
+  "packageManager": "npm",
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress",
+    "json"
+  ],
+  "testRunner": "mocha",
+  "testRunner_comment": "Mocha is used as the test runner.",
+  "coverageAnalysis": "perTest",
+  "mutate": [
+    "src/**/*.js"
+  ]
+}
