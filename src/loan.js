@@ -206,5 +206,34 @@ module.exports = {
   calculateAmortizationSchedule,
   calculateRefinanceImpact,
   calculateExtraPaymentSchedule,
-  calculateBalloonPayment
+  calculateBalloonPayment,
+  calculateLoanAffordability
 };
+
+/**
+ * Calculates the maximum loan amount affordable given a monthly payment.
+ * @param {number} maxMonthlyPayment - Maximum affordable monthly payment.
+ * @param {number} annualRate - Annual interest rate (percent).
+ * @param {number} termYears - Loan term in years.
+ * @returns {number} Maximum loan principal.
+ */
+function calculateLoanAffordability(maxMonthlyPayment, annualRate, termYears) {
+    if (maxMonthlyPayment <= 0 || annualRate < 0 || termYears <= 0) {
+        throw new Error("Invalid input parameters");
+    }
+
+    if (annualRate === 0) {
+        return Number((maxMonthlyPayment * termYears * 12).toFixed(2));
+    }
+
+    const monthlyRate = annualRate / 100 / 12;
+    const numberOfPayments = termYears * 12;
+
+    // P = M * ((1+r)^n - 1) / (r * (1+r)^n)
+    const numerator = Math.pow(1 + monthlyRate, numberOfPayments) - 1;
+    const denominator = monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments);
+    
+    const principal = maxMonthlyPayment * (numerator / denominator);
+    
+    return Number(principal.toFixed(2));
+}

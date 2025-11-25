@@ -163,5 +163,34 @@ module.exports = {
     forecastPortfolioGrowth,
     runMonteCarloSimulation,
     calculateAssetAllocation,
-    calculateInflationImpact
+    calculateInflationImpact,
+    calculateCAGR,
+    calculateRuleOf72
 };
+
+/**
+ * Calculates Compound Annual Growth Rate (CAGR).
+ * @param {number} beginningValue - Value at start.
+ * @param {number} endingValue - Value at end.
+ * @param {number} years - Number of years.
+ * @returns {number} CAGR percentage.
+ */
+function calculateCAGR(beginningValue, endingValue, years) {
+    if (beginningValue <= 0 || endingValue < 0 || years <= 0) {
+        throw new Error("Invalid input parameters");
+    }
+
+    const cagr = Math.pow(endingValue / beginningValue, 1 / years) - 1;
+    return Number((cagr * 100).toFixed(2));
+}
+
+/**
+ * Calculates the Rule of 72 (years to double investment).
+ * @param {number} interestRate - Annual interest rate (percent).
+ * @returns {number} Years to double.
+ */
+function calculateRuleOf72(interestRate) {
+    if (interestRate <= 0) throw new Error("Interest rate must be positive");
+    
+    return Number((72 / interestRate).toFixed(2));
+}

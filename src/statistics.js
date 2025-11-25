@@ -133,5 +133,52 @@ module.exports = {
     calculateNPV,
     calculateIRR,
     calculateStandardDeviation,
-    calculateSharpeRatio
+    calculateSharpeRatio,
+    calculateBeta,
+    calculateTreynorRatio
 };
+
+/**
+ * Calculates Beta of an asset relative to the market.
+ * Beta = Covariance(asset, market) / Variance(market)
+ * @param {Array<number>} assetReturns - Array of asset returns.
+ * @param {Array<number>} marketReturns - Array of market returns.
+ * @returns {number} Beta value.
+ */
+function calculateBeta(assetReturns, marketReturns) {
+    if (!Array.isArray(assetReturns) || !Array.isArray(marketReturns) || assetReturns.length !== marketReturns.length) {
+        throw new Error("Invalid input parameters: arrays must be of same length");
+    }
+    if (assetReturns.length < 2) throw new Error("Insufficient data points");
+
+    const assetMean = assetReturns.reduce((a, b) => a + b, 0) / assetReturns.length;
+    const marketMean = marketReturns.reduce((a, b) => a + b, 0) / marketReturns.length;
+
+    let covariance = 0;
+    let marketVariance = 0;
+
+    for (let i = 0; i < assetReturns.length; i++) {
+        const assetDiff = assetReturns[i] - assetMean;
+        const marketDiff = marketReturns[i] - marketMean;
+        
+        covariance += assetDiff * marketDiff;
+        marketVariance += marketDiff * marketDiff;
+    }
+
+    if (marketVariance === 0) return 0; // Or throw?
+
+    return Number((covariance / marketVariance).toFixed(4));
+}
+
+/**
+ * Calculates the Treynor Ratio.
+ * @param {number} returnRate - Portfolio return.
+ * @param {number} riskFreeRate - Risk-free rate.
+ * @param {number} beta - Portfolio Beta.
+ * @returns {number} Treynor Ratio.
+ */
+function calculateTreynorRatio(returnRate, riskFreeRate, beta) {
+    if (beta === 0) throw new Error("Beta cannot be zero");
+    
+    return Number(((returnRate - riskFreeRate) / beta).toFixed(4));
+}
