@@ -123,7 +123,7 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 3.  **Equivalent Mutants:** Some mutants (e.g., changing `x < 10` to `x != 10` when `x` is an integer loop counter) are semantically identical in context. Identifying these required manual code review.
 
 ## 7. Conclusion
-This project successfully demonstrated the value of **Mutation Testing** in software quality assurance. By moving beyond simple code coverage and focusing on the **efficacy** of our tests, we hardened the FinTech Calc Engine against potential bugs. The final mutation score of **76.00%** represents a high standard of reliability for a financial computation library.
+This project successfully demonstrated the value of **Mutation Testing** in software quality assurance. By moving beyond simple code coverage and focusing on the **efficacy** of our tests, we hardened the FinTech Calc Engine against potential bugs. The final mutation score of **77.48%** represents a high standard of reliability for a financial computation library.
 
 ## 8. Test Execution Results
 *(Placeholders for screenshots of test execution results)*
