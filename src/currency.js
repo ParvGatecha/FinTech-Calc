@@ -10,18 +10,6 @@ function convertCurrency(amount, fromCurrency, toCurrency, rates) {
     if (amount < 0) throw new Error("Amount cannot be negative");
     if (!rates[fromCurrency] || !rates[toCurrency]) throw new Error("Invalid currency code");
 
-    // Convert to base currency first (assuming rates are relative to a base, e.g. USD = 1)
-    // If rates are direct (e.g. USD to EUR), logic would be different. 
-    // Let's assume rates are "per USD" or similar base.
-    // amountInBase = amount / rate(from)
-    // amountInTarget = amountInBase * rate(to)
-    
-    // Example: 100 EUR to GBP. Base USD.
-    // EUR = 0.85 (1 USD = 0.85 EUR) -> 1 EUR = 1.17 USD
-    // GBP = 0.75 (1 USD = 0.75 GBP)
-    // 100 EUR / 0.85 = 117.64 USD
-    // 117.64 USD * 0.75 = 88.23 GBP
-    
     const amountInBase = amount / rates[fromCurrency];
     const convertedAmount = amountInBase * rates[toCurrency];
     

@@ -8,6 +8,15 @@ describe('Crypto Module', () => {
             // 50%
             assert.strictEqual(roi, 50.00);
         });
+
+        it('should throw error for zero invested amount', () => {
+             assert.throws(() => crypto.calculateCryptoROI(0, 1500), /Invested amount must be positive/);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            assert.throws(() => crypto.calculateCryptoROI(0, 1500), /Invested amount must be positive/);
+            assert.throws(() => crypto.calculateCryptoROI(-100, 1500), /Invested amount must be positive/);
+        });
     });
 
     describe('calculateStakingRewards', () => {
@@ -17,6 +26,12 @@ describe('Crypto Module', () => {
             assert.strictEqual(result.finalBalance, 110.0000);
             assert.strictEqual(result.rewards, 10.0000);
         });
+
+        it('should throw error for invalid inputs', () => {
+            assert.throws(() => crypto.calculateStakingRewards(-100, 10, 1), /Invalid input parameters/);
+            assert.throws(() => crypto.calculateStakingRewards(100, -10, 1), /Invalid input parameters/);
+            assert.throws(() => crypto.calculateStakingRewards(100, 10, -1), /Invalid input parameters/);
+        });
     });
 
     describe('calculateImpermanentLoss', () => {
@@ -25,6 +40,11 @@ describe('Crypto Module', () => {
             // Loss = 2 * sqrt(2) / 3 - 1 = 2 * 1.414 / 3 - 1 = 0.9428 - 1 = -0.0572 = -5.72%
             const loss = crypto.calculateImpermanentLoss(2);
             assert.strictEqual(loss, -5.72);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            assert.throws(() => crypto.calculateImpermanentLoss(0), /Price change ratio must be positive/);
+            assert.throws(() => crypto.calculateImpermanentLoss(-1), /Price change ratio must be positive/);
         });
     });
 
@@ -41,6 +61,11 @@ describe('Crypto Module', () => {
             const result = crypto.calculateDollarCostAverage(purchases);
             assert.strictEqual(result.averagePrice, 66.67);
             assert.strictEqual(result.totalCoins, 30.000000);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            assert.throws(() => crypto.calculateDollarCostAverage(null), /Invalid purchases array/);
+            assert.throws(() => crypto.calculateDollarCostAverage([]), /Invalid purchases array/);
         });
     });
 });

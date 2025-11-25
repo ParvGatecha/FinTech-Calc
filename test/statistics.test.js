@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { calculateNPV, calculateIRR, calculateStandardDeviation, calculateSharpeRatio } = require('../src/statistics');
+const { calculateNPV, calculateIRR, calculateStandardDeviation, calculateSharpeRatio, calculateBeta, calculateTreynorRatio } = require('../src/statistics');
 
 describe('Statistics Module', () => {
     describe('calculateNPV', () => {
@@ -53,6 +53,15 @@ describe('Statistics Module', () => {
             const stdDev = calculateStandardDeviation(returns);
             expect(stdDev).to.be.closeTo(5.237, 0.01);
         });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateStandardDeviation(null)).to.throw("Invalid returns data");
+            expect(() => calculateStandardDeviation([])).to.throw("Invalid returns data");
+        });
+
+        it('should return 0 for single element', () => {
+            expect(calculateStandardDeviation([10])).to.equal(0);
+        });
     });
 
     describe('calculateSharpeRatio', () => {
@@ -65,6 +74,54 @@ describe('Statistics Module', () => {
             // Sharpe = (10 - 2) / 5.6568 = 1.4142
             const sharpe = calculateSharpeRatio([6, 14], 2);
             expect(sharpe).to.be.closeTo(1.4142, 0.001);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateSharpeRatio(null, 2)).to.throw("Invalid input parameters");
+            expect(() => calculateSharpeRatio([10, 20], "2")).to.throw("Invalid input parameters");
+        });
+
+        it('should throw error for zero std dev', () => {
+            expect(() => calculateSharpeRatio([10, 10], 2)).to.throw("Standard deviation is zero, cannot calculate Sharpe Ratio");
+        });
+    });
+
+    describe('calculateBeta', () => {
+        it('should calculate Beta correctly', () => {
+            const assetReturns = [10, 20, 30];
+            const marketReturns = [5, 10, 15];
+            // Mean Asset: 20. Mean Market: 10.
+            // Covariance: ((10-20)*(5-10) + (20-20)*(10-10) + (30-20)*(15-10)) = (50 + 0 + 50) = 100
+            // Market Variance: ((5-10)^2 + (10-10)^2 + (15-10)^2) = (25 + 0 + 25) = 50
+            // Beta = 100 / 50 = 2.0
+            const beta = calculateBeta(assetReturns, marketReturns);
+            expect(beta).to.equal(2.00);
+        });
+
+        it('should throw error for mismatched arrays', () => {
+            expect(() => calculateBeta([1, 2], [1])).to.throw("Invalid input parameters: arrays must be of same length");
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateBeta(null, [])).to.throw("Invalid input parameters");
+            expect(() => calculateBeta([], null)).to.throw("Invalid input parameters");
+        });
+
+        it('should throw error for insufficient data', () => {
+            expect(() => calculateBeta([1], [1])).to.throw("Insufficient data points");
+        });
+    });
+
+    describe('calculateTreynorRatio', () => {
+        it('should calculate Treynor Ratio correctly', () => {
+            // Return 15%, Risk Free 5%, Beta 2.0
+            // (15 - 5) / 2 = 5.0
+            const treynor = calculateTreynorRatio(15, 5, 2.0);
+            expect(treynor).to.equal(5.00);
+        });
+
+        it('should throw error for zero beta', () => {
+            expect(() => calculateTreynorRatio(10, 5, 0)).to.throw("Beta cannot be zero");
         });
     });
 });

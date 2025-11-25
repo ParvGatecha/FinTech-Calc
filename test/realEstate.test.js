@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { expect } = require('chai');
 const realEstate = require('../src/realEstate');
 
 describe('Real Estate Module', () => {
@@ -22,6 +23,18 @@ describe('Real Estate Module', () => {
             assert.strictEqual(result.maxMonthlyPayment, 2100);
             assert.strictEqual(result.limitingFactor, "Back-End Ratio (36%)");
         });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => realEstate.calculateMortgageMax(-1000, 500, 4, 30)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateMortgageMax(120000, -500, 4, 30)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateMortgageMax(120000, 500, -4, 30)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateMortgageMax(120000, 500, 4, 0)).to.throw("Invalid input parameters");
+        });
+
+        it('should handle zero income (return 0)', () => {
+            const result = realEstate.calculateMortgageMax(0, 500, 4, 30);
+            assert.strictEqual(result.maxMonthlyPayment, 0);
+        });
     });
 
     describe('calculateRentalYield', () => {
@@ -32,6 +45,12 @@ describe('Real Estate Module', () => {
             assert.strictEqual(result.grossYield, 8.00);
             assert.strictEqual(result.netYield, 5.33);
         });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => realEstate.calculateRentalYield(-24000, 300000, 8000)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateRentalYield(24000, 0, 8000)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateRentalYield(24000, 300000, -8000)).to.throw("Invalid input parameters");
+        });
     });
 
     describe('calculateCapRate', () => {
@@ -39,6 +58,11 @@ describe('Real Estate Module', () => {
             const capRate = realEstate.calculateCapRate(15000, 250000);
             // 15000 / 250000 = 0.06 = 6%
             assert.strictEqual(capRate, 6.00);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => realEstate.calculateCapRate(15000, 0)).to.throw("Property value must be positive");
+            expect(() => realEstate.calculateCapRate(15000, -250000)).to.throw("Property value must be positive");
         });
     });
 
@@ -48,6 +72,10 @@ describe('Real Estate Module', () => {
             // 5000 / 50000 = 10%
             assert.strictEqual(coc, 10.00);
         });
+
+        it('should throw error for zero investment', () => {
+            expect(() => realEstate.calculateCashOnCashReturn(5000, 0)).to.throw("Total cash invested cannot be zero");
+        });
     });
 
     describe('calculateAppreciation', () => {
@@ -56,6 +84,11 @@ describe('Real Estate Module', () => {
             // 100000 * (1.05)^10 = 162889.46
             assert.strictEqual(result.futureValue, 162889.46);
         });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => realEstate.calculateAppreciation(-100000, 5, 10)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateAppreciation(100000, 5, -10)).to.throw("Invalid input parameters");
+        });
     });
 
     describe('calculateClosingCosts', () => {
@@ -63,6 +96,11 @@ describe('Real Estate Module', () => {
             const result = realEstate.calculateClosingCosts(300000, 1.0);
             // Base 3% = 9000
             assert.strictEqual(result.estimatedTotal, 9000.00);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => realEstate.calculateClosingCosts(-300000, 1.0)).to.throw("Invalid input parameters");
+            expect(() => realEstate.calculateClosingCosts(300000, 0)).to.throw("Invalid input parameters");
         });
     });
 });

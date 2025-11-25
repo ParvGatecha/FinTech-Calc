@@ -29,6 +29,20 @@ describe('Tax Module', () => {
             expect(tax).to.equal(9000);
         });
 
+        it('should calculate tax correctly at bracket boundary (10000)', () => {
+            // 10000 * 0.10 = 1000
+            const tax = calculateIncomeTax(10000, brackets);
+            expect(tax).to.equal(1000);
+        });
+
+        it('should calculate tax correctly at bracket boundary (30000)', () => {
+            // 10000 * 0.10 = 1000
+            // 20000 * 0.15 = 3000
+            // Total = 4000
+            const tax = calculateIncomeTax(30000, brackets);
+            expect(tax).to.equal(4000);
+        });
+
         it('should throw error for negative income', () => {
             expect(() => calculateIncomeTax(-100, brackets)).to.throw("Income cannot be negative");
         });
@@ -73,6 +87,18 @@ describe('Tax Module', () => {
             expect(result.type).to.equal('Short-term');
             expect(result.taxAmount).to.equal(220);
         });
+
+        it('should handle holding period exactly 1 year (Long-term)', () => {
+            const result = calculateCapitalGains(1000, 2000, 1.0, 50000);
+            expect(result.type).to.equal('Long-term');
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateCapitalGains(-1000, 2000, 2, 50000)).to.throw("Invalid input parameters");
+            expect(() => calculateCapitalGains(1000, -2000, 2, 50000)).to.throw("Invalid input parameters");
+            expect(() => calculateCapitalGains(1000, 2000, -2, 50000)).to.throw("Invalid input parameters");
+            expect(() => calculateCapitalGains(1000, 2000, 2, -50000)).to.throw("Invalid input parameters");
+        });
     });
 
     describe('estimateTaxLiability', () => {
@@ -88,6 +114,11 @@ describe('Tax Module', () => {
             // Tax = 5000 * 0.10 = 500
             const tax = estimateTaxLiability(20000, 'single', 15000);
             expect(tax).to.equal(500);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => estimateTaxLiability(-20000, 'single')).to.throw("Invalid input parameters");
+            expect(() => estimateTaxLiability(20000, 'single', -100)).to.throw("Invalid input parameters");
         });
     });
 });

@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { calculateCompoundInterest, forecastPortfolioGrowth, runMonteCarloSimulation, calculateAssetAllocation, calculateInflationImpact } = require('../src/investment');
+const { calculateCompoundInterest, forecastPortfolioGrowth, runMonteCarloSimulation, calculateAssetAllocation, calculateInflationImpact, calculateCAGR, calculateRuleOf72 } = require('../src/investment');
 
 describe('Investment Module', () => {
     describe('calculateCompoundInterest', () => {
@@ -29,6 +29,7 @@ describe('Investment Module', () => {
             expect(() => calculateCompoundInterest(1000, -5, 10, 12)).to.throw("Invalid input parameters");
             expect(() => calculateCompoundInterest(1000, 5, -10, 12)).to.throw("Invalid input parameters");
             expect(() => calculateCompoundInterest(1000, 5, 10, 0)).to.throw("Invalid input parameters");
+            expect(() => calculateCompoundInterest(1000, 5, 10, -1)).to.throw("Invalid input parameters");
         });
     });
 
@@ -85,6 +86,9 @@ describe('Investment Module', () => {
 
         it('should throw error for invalid simulations', () => {
             expect(() => runMonteCarloSimulation(10000, 500, 10, 7, 10, 0)).to.throw("Invalid input parameters");
+            expect(() => runMonteCarloSimulation(-10000, 500, 10, 7, 10)).to.throw("Invalid input parameters");
+            expect(() => runMonteCarloSimulation(10000, -500, 10, 7, 10)).to.throw("Invalid input parameters");
+            expect(() => runMonteCarloSimulation(10000, 500, -10, 7, 10)).to.throw("Invalid input parameters");
         });
     });
 
@@ -106,6 +110,12 @@ describe('Investment Module', () => {
             expect(bonds.action).to.equal('SELL');
             expect(bonds.difference).to.equal(-10000);
         });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateAssetAllocation(-1000, [], [])).to.throw("Invalid input parameters");
+            expect(() => calculateAssetAllocation(1000, null, [])).to.throw("Invalid input parameters");
+            expect(() => calculateAssetAllocation(1000, [], null)).to.throw("Invalid input parameters");
+        });
     });
 
     describe('calculateInflationImpact', () => {
@@ -114,6 +124,38 @@ describe('Investment Module', () => {
             // 100000 / (1.03)^10 = 100000 / 1.3439 = 74409...
             const realValue = calculateInflationImpact(100000, 3, 10);
             expect(realValue).to.be.closeTo(74409.39, 0.1);
+        });
+
+        it('should throw error for negative years', () => {
+            expect(() => calculateInflationImpact(1000, 3, -5)).to.throw("Invalid input parameters");
+        });
+    });
+
+    describe('calculateCAGR', () => {
+        it('should calculate CAGR correctly', () => {
+            // Start 1000, End 2000, 5 years
+            // (2000/1000)^(1/5) - 1 = 2^0.2 - 1 = 1.1487 - 1 = 0.1487 = 14.87%
+            const cagr = calculateCAGR(1000, 2000, 5);
+            expect(cagr).to.equal(14.87);
+        });
+
+        it('should throw error for invalid inputs', () => {
+            expect(() => calculateCAGR(0, 2000, 5)).to.throw("Invalid input parameters");
+            expect(() => calculateCAGR(1000, -2000, 5)).to.throw("Invalid input parameters");
+            expect(() => calculateCAGR(1000, 2000, 0)).to.throw("Invalid input parameters");
+        });
+    });
+
+    describe('calculateRuleOf72', () => {
+        it('should calculate years to double correctly', () => {
+            const years = calculateRuleOf72(8);
+            // 72 / 8 = 9
+            expect(years).to.equal(9.00);
+        });
+
+        it('should throw error for non-positive interest rate', () => {
+            expect(() => calculateRuleOf72(0)).to.throw("Interest rate must be positive");
+            expect(() => calculateRuleOf72(-5)).to.throw("Interest rate must be positive");
         });
     });
 });

@@ -30,14 +30,6 @@ function calculateIncomeTax(income, brackets) {
     if (remainingIncome <= 0) break;
   }
   
-  // If there is still income left above the last bracket (assuming last bracket max is Infinity or effectively so, 
-  // but if the loop finishes and there's remaining income, it means the brackets didn't cover it. 
-  // However, usually the last bracket has max: Infinity. 
-  // If the last bracket has a finite max, and there is remaining income, we should probably handle it or assume it's taxed at the last rate?
-  // For this implementation, let's assume the last provided bracket covers everything above its min if max is not provided or Infinity.
-  // But if the loop exits, it means we've exhausted the brackets. 
-  // Let's stick to the logic: brackets should cover the range.
-  
   return Number(tax.toFixed(2));
 }
 

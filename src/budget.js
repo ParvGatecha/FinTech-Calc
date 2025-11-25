@@ -31,7 +31,7 @@ function analyzeExpenses(expenses) {
     let topCategory = null;
 
     for (const item of expenses) {
-        if (item.amount < 0) continue; // Skip negative expenses? Or throw? Let's skip.
+        if (item.amount < 0) continue; // Skip negative expenses
         
         total += item.amount;
         

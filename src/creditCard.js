@@ -40,13 +40,6 @@ function calculatePayoffTime(balance, interestRate, monthlyPayment) {
 function calculateInterestCharges(balance, interestRate, months) {
     if (balance < 0 || interestRate < 0 || months < 0) throw new Error("Invalid input parameters");
 
-    // Simple approximation if balance stays constant (unlikely for payoff scenarios, but useful for "cost of carrying debt")
-    // Or should this simulate payoff? Let's assume constant balance for "cost of debt" or simulate if payment provided?
-    // The prompt implies "total interest paid" which usually implies a payoff scenario or specific timeframe.
-    // Let's implement a simulation assuming minimum payments or just simple interest accumulation if no payment specified?
-    // Let's assume this calculates interest ACCRUED if no payments made (compound) or simple? 
-    // Credit cards compound daily usually. Let's use monthly compounding for consistency.
-    
     const monthlyRate = interestRate / 100 / 12;
     const futureValue = balance * Math.pow(1 + monthlyRate, months);
     
