@@ -4,6 +4,7 @@
 **Subject:** Software Testing  
 **Project Name:** FinTech Calc Engine  
 **Date:** November 2025
+**GitHub Repository:** [Link to Repository](<https://github.com/ParvGatecha/FinTech-Calc>)
 
 ### Team Members
 | Name | Roll Number |
