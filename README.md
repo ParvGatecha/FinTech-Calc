@@ -129,15 +129,15 @@ This project successfully demonstrated the value of **Mutation Testing** in soft
 *(Placeholders for screenshots of test execution results)*
 
 ### 8.1 Unit Test Coverage
-![Unit Test Coverage](reports\unit.png)
+![Unit Test Coverage](reports/unit.png)
 *Screenshot showing the output of `npm test` with 100% pass rate.*
 
 ### 8.2 Mutation Testing Report
-![Mutation Testing Report](reports\mutation.png)
+![Mutation Testing Report](reports/mutation.png)
 *Screenshot showing the Stryker mutation score (77.48%).*
 
 ### 8.3 Fuzz Testing Output
-![Fuzz Testing Output](reports\fuzz.png)
+![Fuzz Testing Output](reports/fuzz.png)
 *Screenshot showing the output of `npx mocha test/fuzzing.test.js` passing all modules.*
 
 ## 9. AI Tools Acknowledgement
