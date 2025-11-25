@@ -1,4 +1,4 @@
-# FinTech Calc Engine - Comprehensive Software Testing Report
+# FinTech Calc Engine - Software Testing Report
 
 ## 1. Project Overview
 **Subject:** Software Testing  
