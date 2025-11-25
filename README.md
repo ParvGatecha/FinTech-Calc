@@ -64,14 +64,25 @@ We adopted a rigorous unit testing approach focusing on:
     - Empty datasets (e.g., analyzing an empty expense array).
 
 ### 4.2 Mutation Testing
-Mutation testing was the core of our quality assurance process. It involves:
-1.  **Mutant Generation:** The tool (Stryker) inserts small bugs (mutants) into the source code (e.g., changing `+` to `-`, or `<` to `<=`).
-2.  **Test Execution:** The test suite is run against each mutant.
+**Problem Statement Addressed:** *Mutation testing: Projects that use mutation testing... At least three different mutation operators should be used.*
+
+Mutation testing was the core of our quality assurance process. We used **Stryker Mutator**, which applied the following mutation operators (among others):
+1.  **Arithmetic Operator:** Replaced `+` with `-`, `*` with `/`, etc.
+2.  **Equality Operator:** Replaced `===` with `!==`, `<` with `<=`, etc.
+3.  **Logical Operator:** Replaced `&&` with `||`.
+4.  **Conditional Expression:** Replaced `true` with `false` in conditions.
+5.  **Update Operator:** Replaced `i++` with `i--`.
+
+**Process:**
+1.  **Mutant Generation:** Stryker inserted these mutants into the source code.
+2.  **Test Execution:** The test suite was run against each mutant.
 3.  **Outcome:**
-    - **Killed:** The tests fail, meaning the bug was detected. (Good)
-    - **Survived:** The tests pass, meaning the bug went unnoticed. (Bad)
+    - **Killed:** The tests fail (bug detected).
+    - **Survived:** The tests pass (bug undetected).
 
 ### 4.3 Fuzz Testing (Property-Based Testing)
+**Problem Statement Addressed:** *Fuzz testing: A variant of mutation testing... Any open source tool for fuzzing can be used.*
+
 To further enhance reliability, we implemented fuzz testing using `fast-check`.
 1.  **Goal:** Verify that functions handle a wide range of random inputs (including edge cases like `NaN`, `Infinity`, and large numbers) without crashing or producing invalid results.
 2.  **Scope:** All 10 modules were subjected to fuzz testing.
@@ -113,7 +124,13 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 ## 7. Conclusion
 This project successfully demonstrated the value of **Mutation Testing** in software quality assurance. By moving beyond simple code coverage and focusing on the **efficacy** of our tests, we hardened the FinTech Calc Engine against potential bugs. The final mutation score of **76.00%** represents a high standard of reliability for a financial computation library.
 
-## 8. Future Scope
+## 8. AI Tools Acknowledgement
+In compliance with the project guidelines, we acknowledge the use of the following AI tools:
+- **Google Gemini / Antigravity Agent:** Used for:
+    - Suggesting test cases for edge boundaries.
+    - Assisting in debugging Stryker configuration and fuzz test failures.
+
+## 9. Future Scope
 - **CI/CD Integration:** Automating the Stryker and Fuzzing runs in a GitHub Actions workflow.
 - **UI Implementation:** Building a React-based frontend to visualize these calculations for end-users.
 - **Performance Benchmarking:** Analyzing the computational efficiency of Monte Carlo simulations and optimization algorithms.
