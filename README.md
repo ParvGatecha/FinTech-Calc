@@ -97,9 +97,9 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 | Metric | Value |
 |--------|-------|
 | **Total Mutants Generated** | 1279 |
-| **Mutants Killed** | 972 |
-| **Mutants Survived** | 307 |
-| **Final Mutation Score** | **76.00%** |
+| **Mutants Killed** | 987 |
+| **Mutants Survived** | 292 |
+| **Final Mutation Score** | **77.17%** |
 
 *Note: Some surviving mutants are "equivalent mutants" or related to internal logging/caching mechanisms that do not affect business logic.*
 
