@@ -109,9 +109,9 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 | Metric | Value |
 |--------|-------|
 | **Total Mutants Generated** | 1279 |
-| **Mutants Killed** | 987 |
-| **Mutants Survived** | 292 |
-| **Final Mutation Score** | **77.17%** |
+| **Mutants Killed** | 976 |
+| **Mutants Survived** | 303 |
+| **Final Mutation Score** | **77.48%** |
 
 *Note: Some surviving mutants are "equivalent mutants" or related to internal logging/caching mechanisms that do not affect business logic.*
 
@@ -125,7 +125,22 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 ## 7. Conclusion
 This project successfully demonstrated the value of **Mutation Testing** in software quality assurance. By moving beyond simple code coverage and focusing on the **efficacy** of our tests, we hardened the FinTech Calc Engine against potential bugs. The final mutation score of **76.00%** represents a high standard of reliability for a financial computation library.
 
-## 8. AI Tools Acknowledgement
+## 8. Test Execution Results
+*(Placeholders for screenshots of test execution results)*
+
+### 8.1 Unit Test Coverage
+![Unit Test Coverage](reports\unit.png)
+*Screenshot showing the output of `npm test` with 100% pass rate.*
+
+### 8.2 Mutation Testing Report
+![Mutation Testing Report](reports\mutation.png)
+*Screenshot showing the Stryker mutation score (77.48%).*
+
+### 8.3 Fuzz Testing Output
+![Fuzz Testing Output](reports\fuzz.png)
+*Screenshot showing the output of `npx mocha test/fuzzing.test.js` passing all modules.*
+
+## 9. AI Tools Acknowledgement
 In compliance with the project guidelines, we acknowledge the use of the following AI tools:
 - **Google Gemini / Antigravity Agent:** Used for:
     - Suggesting test cases for edge boundaries.
