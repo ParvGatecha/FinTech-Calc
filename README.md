@@ -12,6 +12,22 @@
 | **Parv Gatecha** | **MT2024108** |
 | **Bhagya Shah** | **MT2024135** |
 
+### Individual Contributions
+
+#### Parv Gatecha
+- **budget.js**: Budgeting & Expense Analysis
+- **creditCard.js**: Credit Card Payoff & Interest
+- **crypto.js**: Cryptocurrency ROI & Staking
+- **currency.js**: Currency Conversion
+- **investment.js**: Investment Growth & Monte Carlo
+
+#### Bhagya Shah
+- **loan.js**: Loan Amortization & Refinancing
+- **realEstate.js**: Mortgage & Rental Yield
+- **retirement.js**: 401k & RMD Calculations
+- **statistics.js**: Financial Statistics (NPV, IRR)
+- **tax.js**: Tax Estimation & Brackets
+
 ---
 
 ## 2. Abstract
@@ -53,9 +69,19 @@ FinTech-Calc/
 
 ---
 
-## 4. Testing Methodology
+## 4. Installation & Usage
+1.  **Prerequisites:** Ensure you have Node.js installed.
+2.  **Installation:** Run `npm install` to install dependencies.
+3.  **Running Tests:**
+    - **Unit Tests:** `npm test`
+    - **Mutation Tests:** `npx stryker run`
+    - **Fuzz Tests:** `npx mocha test/fuzzing.test.js`
 
-### 4.1 Unit Testing Strategy
+---
+
+## 5. Testing Methodology
+
+### 5.1 Unit Testing Strategy
 We adopted a rigorous unit testing approach focusing on:
 1.  **Positive Testing:** Validating core logic with standard inputs (e.g., calculating mortgage payments for a 30-year fixed loan).
 2.  **Negative Testing:** Ensuring the system gracefully handles invalid inputs (e.g., negative interest rates, zero loan terms) by throwing descriptive errors.
@@ -64,7 +90,7 @@ We adopted a rigorous unit testing approach focusing on:
     - Precision limits (e.g., floating-point accuracy in currency).
     - Empty datasets (e.g., analyzing an empty expense array).
 
-### 4.2 Mutation Testing
+### 5.2 Mutation Testing
 **Problem Statement Addressed:** *Mutation testing: Projects that use mutation testing... At least three different mutation operators should be used.*
 
 Mutation testing was the core of our quality assurance process. We used **Stryker Mutator**, which applied the following mutation operators (among others):
@@ -81,7 +107,7 @@ Mutation testing was the core of our quality assurance process. We used **Stryke
     - **Killed:** The tests fail (bug detected).
     - **Survived:** The tests pass (bug undetected).
 
-### 4.3 Fuzz Testing (Property-Based Testing)
+### 5.3 Fuzz Testing (Property-Based Testing)
 **Problem Statement Addressed:** *Fuzz testing: A variant of mutation testing... Any open source tool for fuzzing can be used.*
 
 To further enhance reliability, we implemented fuzz testing using `fast-check`.
@@ -94,16 +120,16 @@ To further enhance reliability, we implemented fuzz testing using `fast-check`.
 
 ---
 
-## 5. Detailed Analysis & Improvements
+## 6. Detailed Analysis & Improvements
 
-### 5.1 Initial Assessment
+### 6.1 Initial Assessment
 - **Initial Mutation Score:** ~59.81%
 - **Key Findings:**
     - Many "Conditional Expression" mutants survived, indicating a lack of tests for specific branches.
     - "Equality Operator" mutants survived (e.g., `<` vs `<=`), showing insufficient boundary testing.
     - Input validation was often missing or not strictly tested.
 
-### 5.2 Final Results
+### 6.2 Final Results
 After implementing targeted tests for **10 modules**, we achieved the following results:
 
 | Metric | Value |
@@ -117,36 +143,35 @@ After implementing targeted tests for **10 modules**, we achieved the following 
 
 ---
 
-## 6. Challenges Faced
+## 7. Challenges Faced
 1.  **Floating Point Precision:** JavaScript's handling of decimals caused test failures for values like `0.1 + 0.2`. We resolved this by using `toFixed(2)` and `closeTo` assertions in Chai.
 2.  **Infinite Loops:** Mutation testing occasionally created infinite loops (e.g., removing the increment in a `while` loop). We configured Stryker with a timeout to handle these gracefully.
 3.  **Equivalent Mutants:** Some mutants (e.g., changing `x < 10` to `x != 10` when `x` is an integer loop counter) are semantically identical in context. Identifying these required manual code review.
 
-## 7. Conclusion
+## 8. Conclusion
 This project successfully demonstrated the value of **Mutation Testing** in software quality assurance. By moving beyond simple code coverage and focusing on the **efficacy** of our tests, we hardened the FinTech Calc Engine against potential bugs. The final mutation score of **77.48%** represents a high standard of reliability for a financial computation library.
 
-## 8. Test Execution Results
-*(Placeholders for screenshots of test execution results)*
+## 9. Test Execution Results
 
-### 8.1 Unit Test Coverage
+### 9.1 Unit Test Coverage
 ![Unit Test Coverage](reports/unit.png)
 *Screenshot showing the output of `npm test` with 100% pass rate.*
 
-### 8.2 Mutation Testing Report
+### 9.2 Mutation Testing Report
 ![Mutation Testing Report](reports/mutation.png)
 *Screenshot showing the Stryker mutation score (77.48%).*
 
-### 8.3 Fuzz Testing Output
+### 9.3 Fuzz Testing Output
 ![Fuzz Testing Output](reports/fuzz.png)
 *Screenshot showing the output of `npx mocha test/fuzzing.test.js` passing all modules.*
 
-## 9. AI Tools Acknowledgement
+## 10. AI Tools Acknowledgement
 In compliance with the project guidelines, we acknowledge the use of the following AI tools:
 - **Google Gemini / Antigravity Agent:** Used for:
     - Suggesting test cases for edge boundaries.
     - Assisting in debugging Stryker configuration and fuzz test failures.
 
-## 9. Future Scope
+## 11. Future Scope
 - **CI/CD Integration:** Automating the Stryker and Fuzzing runs in a GitHub Actions workflow.
 - **UI Implementation:** Building a React-based frontend to visualize these calculations for end-users.
 - **Performance Benchmarking:** Analyzing the computational efficiency of Monte Carlo simulations and optimization algorithms.
